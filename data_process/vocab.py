@@ -31,16 +31,21 @@ class Vocab(object):
             if word not in self.index2word:
                 self.word2index[word] = len(self.index2word)
                 self.index2word.append(word)
-            self.word_count.update(word)
+        self.word_count.update(words)    # iterable parameter!
+
+    def add_word(self, word):
+        print(word)
+        if word not in self.index2word:
+            self.word2index[word] = len(self.index2word)
+            self.index2word.append(word)
+        self.word_count[word] += 1
 
 
 if __name__ == '__main__':
     samples_train = files_utils.read_samples(config.train_data_path)
     samples_val = files_utils.read_samples(config.val_data_path)
     vocab = Vocab()
-    for line in samples_train[:50]:
+    for line in samples_train:
         vocab.add_words(line.strip().split())
-    for line in samples_val[:50]:
-        vocab.add_words(line.strip().split())
-
+    print(len(vocab.index2word))
 
