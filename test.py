@@ -3,21 +3,18 @@ from collections import Counter
 from typing import Callable
 import config
 import numpy as np
+import torch
+from functools import wraps
 
-res = {'x': [1],
-           'y': [],
-           'x_len': [],
-           'y_len': [],
-           'OOV': [],
-           'len_OOV': []}
-res = res.items()
-x = np.array([7, 5, 8])
-y = x.argsort()[::-1]
 
-print(res)
+def f():
+    x = [1, 2]
+    y = [3, 4]
+    return x, y
 
-for name, tensor in res:
-    print(name)
+
+x = f()
+print(x)
 
 
 

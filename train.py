@@ -14,12 +14,14 @@ def train(train_dataset, val_dataset, vocab_list, start_epoch=0):
                                   shuffle=True, collate_fn=data_utils.collate_fn)
 
     for i, data in enumerate(train_dataloader):
-        print(data)
+        print(len(data))
+        print(data[0])
+        print(data[4])
         break
 
 
 if __name__ == '__main__':
-    test_pairs = dataset.WordPairs(config.test_data_path)
+    test_pairs = dataset.WordPairs(config.train_data_path)
     vocab_list = test_pairs.build_vocab()
     train(test_pairs, test_pairs, vocab_list, start_epoch=0)
 

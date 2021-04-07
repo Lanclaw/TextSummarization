@@ -14,17 +14,16 @@ def count_words(word_counts, text):
 def src2id(source_words, vocab):    # based on PGN
     ids = []
     oovs = []
-    unk_id = ['<UNK>']
+    unk_id = vocab['<UNK>']
     for w in source_words:
         id = vocab[w]
         if id == unk_id:
             if id not in oovs:              # maybe 2 same oov words
                 oovs.append(w)
             oov_index = oovs.index(w)
-            ids.append(vocab.size() + oov_index)
+            ids.append(len(vocab) + oov_index)
         else:
             ids.append(id)
-
     return ids, oovs
 
 
@@ -58,7 +57,7 @@ def sort_batch_by_len(data_batch):
 def collate_fn(data_batch):
 
     def padding(sentences, max_len, pad_idx=0):
-        padded_sens = [[s] + [pad_idx] * max(0, max_len - len(s)) for s in sentences]
+        padded_sens = [s + [pad_idx] * max(0, max_len - len(s)) for s in sentences]
         return torch.tensor(padded_sens)
 
     sorted_batch = sort_batch_by_len(data_batch)
@@ -70,11 +69,12 @@ def collate_fn(data_batch):
 
     x_padded = padding(x, x_max_len)
     y_padded = padding(y, y_max_len)
-    x_len = torch.tensor(data_batch['x_len'])
-    y_len = torch.tensor(data_batch['y_len'])
+    x_len = torch.tensor(sorted_batch['x_len'])
+    y_len = torch.tensor(sorted_batch['y_len'])
 
-    oov = torch.tensor(data_batch['oov'])
-    oov_len = torch.tensor(data_batch['oov_len'])
+    print(len(sorted_batch['oov'][0]))
+    oov = sorted_batch['oov']
+    oov_len = torch.tensor(sorted_batch['oov_len'])
 
     return x_padded, y_padded, x_len, y_len, oov, oov_len
 

@@ -40,7 +40,7 @@ class WordPairs(object):
     def build_vocab(self):
         word_counts = Counter()
         count_words(word_counts, [src + tgt for src, tgt in self.pairs])
-        print(len(word_counts))
+
         vocab_list = vocab.Vocab()
         for word, count in word_counts.most_common(config.max_vocab_size):
             vocab_list.add_words([word])
