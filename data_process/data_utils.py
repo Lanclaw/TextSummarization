@@ -72,7 +72,6 @@ def collate_fn(data_batch):
     x_len = torch.tensor(sorted_batch['x_len'])
     y_len = torch.tensor(sorted_batch['y_len'])
 
-    print(len(sorted_batch['oov'][0]))
     oov = sorted_batch['oov']
     oov_len = torch.tensor(sorted_batch['oov_len'])
 
